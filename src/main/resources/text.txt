@@ -1,0 +1,24 @@
+
+**스프링 빈을 등록하는 방법**
+1. 컴포넌트 스캔과 자동 의존관계 설정 (어노테이션 사용)
+    -@Component 애노테이션이 있으면 스프링 빈으로 자동 등록된다.
+        -@Controller, @Service, @Repository 는 @Component를 포함하고 있다
+            ->위 애노테이션을 써도 스프링 빈으로 자동 등록된다.
+        -@SpringBootApplicaton 애노테이션이 붙은 시작 파일을 포함하는 패키지의 하위 패키지를 컴포넌트 스캔한다
+            ->hello.hellospring 패키지 안에 HelloSpringApplication가 존재하므로
+            ->hello.hellospring의 하위 패키지에 있는 @Component 애노테이션을 찾아 스프링 빈으로 자동 등록
+            ->아예 다른 패키지라면 @Component 애노테이션이 붙어있어도 빈으로 자동 등록 되지않는다.
+        -@Autowired 는 스프링 컨테이너에 등록된 bean 만 가지고 올 수 있다 (당연함)
+        -클래스에 애너테이션만 붙여서 간편하게 등록 가능
+
+2. 자바 코드로 직접 스프링 빈 등록하기
+    -@Service, @Repository, @Autowired 없이
+    -SpringConfig 참고
+    -@Configuration, @Bean 애노테이션 이용
+    -> Bean만 따로 모아 관리하므로 변경에 용의
+
+(cf) 스프링은 스프링 컨테이너에 스프링 빈을 등록할 때 싱글톤으로 등록 = 같은 스프링 빈이면 모두 같은 인스턴스
+-> 설정하면 싱글톤 아니게 할 수는 있음
+
+** DI에는 setter 주입, 생성자 주입, 필드 주입 3가지 방법이 있는데
+의존관계가 실행 중에 동적으로 변하는 경우는 거의 없으므로 주로 생성자 주입을 하게 됨
