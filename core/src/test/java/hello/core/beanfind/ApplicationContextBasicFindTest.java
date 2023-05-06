@@ -45,7 +45,7 @@ public class ApplicationContextBasicFindTest {
         //MemberService memberService = ac.getBean("xxxxxxx", MemberServiceImpl.class);
 
         assertThrows(NoSuchBeanDefinitionException.class, () -> {
-            ac.getBean("xxxxxxx", MemberServiceImpl.class)
+            ac.getBean("xxxxxxx", MemberServiceImpl.class);
         });
         //assertThrows(Exception.class, () -> { "코드" }
         //"코드"를 실행했을 때 Exception 이 발생해야함 (assertThrows은 junit의 Assertions)
