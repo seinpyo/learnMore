@@ -1,7 +1,12 @@
 package hello.core.member;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class MemberServiceImpl implements MemberService{
 
+    @Autowired  //이 클래스를 스프링 빈에 등록 할 때 필요한 클래스를 자동으로 주입해준다
     public MemberServiceImpl(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
