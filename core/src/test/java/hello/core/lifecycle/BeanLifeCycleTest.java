@@ -19,11 +19,18 @@ public class BeanLifeCycleTest {
 
     @Configuration
     static class LifeCycleConfig {
-        @Bean
+        @Bean //NetworkClient에서 생성한 메서드를 초기화, 소멸 메서드로 지정
         public NetworkClient networkClient() {
             NetworkClient networkClient = new NetworkClient();
             networkClient.setUrl("http://hello-spring.dev");
             return networkClient;
         }
     }
+
+    //destroyMethod 의 디폴트 값 = "(inferred)"  /(추론)
+    //  -> "close" 나 "shutdown" 이라는 이름의 메서드를 자동으로 호출해준다
+    // 디폴트로 냅둬도(명시하지 않아도) 잘 작동!
+    // 추론 기능을 쓰기 싫을 때는 destroyMethod = "" 로 냅두기
+
+
 }
