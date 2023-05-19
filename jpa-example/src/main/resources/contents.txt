@@ -1,0 +1,35 @@
+## 영속성 컨텍스트
+= 엔티티를 영구 저장하는 환경
+EntityManager.persist(entity)를 실행 시, 엔티티를 영속성 컨텍스트에 저장
+
+* 비영속(new) : 영속성 컨텍스트와 전혀 관계가 없는 새로운 상태
+-> 객체를 생성만한 상태 (JPA 랑은 아무 상관이 없음)
+-> 생성된 비영속 객체를 EntityManager.persist(객체) 하면 해당 객체는 "영속" 상태가 됨
+-> persist는 영속성 컨텍스트에 객체를 저장하는 것이고 실제 DB에 insert 쿼리가 실행되는 것은 commit 될 때
+
+-> EntityManager.detach(객체) : 영속성 컨텍스트에서 객체를 삭제함
+-> EntityManager.remove(객체) : DB에서 객체를 삭제하고자 할 때
+
+## 영속성 컨텍스트가 필요한 이유
+    - 1차 캐시:
+        - 영속성 컨텍스트가 가지고 맵
+        - find() 할 때 DB를 조회하기전 1차 캐시 부터 조회함
+        - em.find("member1") 실행 시, 1차캐시에 @Id가(=key값이) "member1"인 데이터를 찾음
+            -> 없으면 DB 조회 후, 결과를 1차 캐시에 저장 후 반환한다
+            -> find 직전에 persist 했다면 db 조회할 필요 x (캐시만 조회)
+    - 동일성(identity) 보장
+    - 트랜잭션을 지원하는 쓰기 지연
+        - em.persist(member1); 이 실행되면
+            -> member1이 1차 캐시에 저장되고 insert sql이 생성되어 쓰기 지연 sql 저장소에 저장된다
+            -> persist 가 여러개라면 1차 캐시와, sql 저장소에 쌓인다
+            -> commit(); 이 실행되면 db에 sql을 보낸다.
+        - <property name="hibernate.jdbc.batch_size" value="10"> 을 persistence.xml에 추가하면 JPA 배치 사용 가능
+            -> value에 지정한 수만큼 한번에 쿼리가 나감
+    - 변경 감지(dirty checking)
+        - 별도의 update문이 필요없이 데이터를 수정할 수 있다
+            -> Member member = em.find(Member.class, 1); member.setName("바뀐이름"); 후 트랜젝션을 커밋하면?
+            -> DB에도 값이 바뀌어 있다
+        - 1차 캐시 안에는 @Id, Entity와 스냅샷이 있는데 이 스냅샷은 객체를 불러온 그 시점의 값을 저장하고 있는 필드이다.
+        - member.setName("바뀐이름")으로 변경된 객체는 Entity에 적용되고 스냅샷에는 영향을 주지 x
+        - 트랜젝션이 커밋 되면 flush() 호출 => 스냅샷과 Entity가 다르면 update SQL을 생성하여 쓰기 지연 SQL 저장소에 저장
+        - 변경감지가 끝나면 => 쓰기 지연 SQL 저장소에 있던 SQL flush => DB에 commit
