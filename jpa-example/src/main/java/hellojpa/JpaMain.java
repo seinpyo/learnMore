@@ -21,11 +21,25 @@ public class JpaMain {
                     .setFirstResult(0)  //5번부터
                     .setMaxResults(8)   //8번까지 가져오는 paging
                     .getResultList();
+
             for (Member member : result) {
                 System.out.println("member.getName() = " + member.getName());
             }
 
-            
+            Member member1 = em.find(Member.class, 1L);
+            // 위에서 전체 조회를 했기 때문에 다시 조회하지 않고 1차캐시에서 값을 찾아옴 ( = select 쿼리 실행 x )
+
+            em.clear();
+            // 영속성 컨텍스트 비우기
+
+            Member member2 = em.find(Member.class, 1L);
+            // 영속성 컨텍스트에 아무것도 없으니 다시 조회해야함 ( = select 쿼리 실행 o )
+
+            em.close();
+            //영속성 컨텍스트 종료
+
+            Member member3 = em.find(Member.class, 1L);
+
 
             tx.commit();
         } catch(Exception e) {
