@@ -1,13 +1,10 @@
 package hellojpa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
+import javax.persistence.*;
 import java.util.List;
 
 public class JpaMain {
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         EntityManager em = emf.createEntityManager();   //쓰레드 간에 공유 XXXXXXX
 
@@ -15,31 +12,30 @@ public class JpaMain {
         tx.begin();
 
         try {
-//            Member findMember = em.find(Member.class, 1L);
-//            findMember.setName("helloUser");    //수정
-            List<Member> result = em.createQuery("select m from Member as m ", Member.class) //JPQL => 객체지향 SQL
-                    .setFirstResult(0)  //5번부터
-                    .setMaxResults(8)   //8번까지 가져오는 paging
-                    .getResultList();
+            MemberSequence member = new MemberSequence();
+            member.setUsername("A");
+            MemberSequence member2 = new MemberSequence();
+            member2.setUsername("B");
+            MemberSequence member3 = new MemberSequence();
+            member3.setUsername("C");
 
-            for (Member member : result) {
-                System.out.println("member.getName() = " + member.getName());
-            }
+            System.out.println("=====================================");
 
-            Member member1 = em.find(Member.class, 1L);
-            // 위에서 전체 조회를 했기 때문에 다시 조회하지 않고 1차캐시에서 값을 찾아옴 ( = select 쿼리 실행 x )
+            em.persist(member); //시퀀스 다음 값을 AllocationSize값 만큼 다음 시퀀스 값을 가져와 메모리에 올림 ( 1 ~ 50 )
+            //call next value for MEMBER_SEQ = 51 (50개를 가져왔으므로 시퀀스 다음 값은 51)
 
-            em.clear();
-            // 영속성 컨텍스트 비우기
+            em.persist(member2);    //메모리에서 다음 값 가져옴
+            em.persist(member3);    //메모리에서 다음 값 가져옴
 
-            Member member2 = em.find(Member.class, 1L);
-            // 영속성 컨텍스트에 아무것도 없으니 다시 조회해야함 ( = select 쿼리 실행 o )
+            System.out.println("member = " + member.getId());   //1
+            System.out.println("member2 = " + member2.getId()); //2
+            System.out.println("member3 = " + member3.getId()); //3
 
-            em.close();
-            //영속성 컨텍스트 종료
+            //이제 다음번 시퀀스는 51 부터 시작
+            //똑같이 실행 시 id 값이 51,52,53 이 됨
+            //한번에 50개씩 들고 오니 동시성 문제도 해결 할 수 있음
 
-            Member member3 = em.find(Member.class, 1L);
-
+            System.out.println("=====================================");
 
             tx.commit();
         } catch(Exception e) {
