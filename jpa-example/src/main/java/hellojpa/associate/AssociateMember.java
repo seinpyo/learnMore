@@ -11,11 +11,24 @@ public class AssociateMember {
     @Column(name = "USERNAME")
     private String username;
 
+    @OneToOne
+    @JoinColumn(name = "LOCKER_ID")
+    private Locker locker;
+
 //    @Column(name = "TEAM_ID")
 //    private Long teamId;
     @ManyToOne(fetch = FetchType.LAZY) //다대일 관계 (내가 다)
     @JoinColumn(name = "TEAM_ID") //조인할 컬럼 설정
     private Team team;
+
+
+    public Locker getLocker() {
+        return locker;
+    }
+
+    public void setLocker(Locker locker) {
+        this.locker = locker;
+    }
 
     public Long getId() {
         return id;
