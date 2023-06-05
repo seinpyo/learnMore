@@ -2,7 +2,7 @@ package hellojpa.associate;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 public class AssociateMember {
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")

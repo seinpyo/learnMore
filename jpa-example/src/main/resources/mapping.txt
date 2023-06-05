@@ -1,0 +1,11 @@
+
+## 상속관계 매핑
+    - RDBMS에는 상속관계가 없음
+    - 슈퍼타입 서브타입 논리 모델을 실제 물리 모델로 구현하는 방법
+        - 조인전략: 자식, 부모테이블을 각각 따로 만들고 join 으로 값을 가져옴 (가장 정규화된 방법)
+            - @Inheritance(strategy = InheritanceType.JOINED)
+        - 단일 테이블 전략: 자식,부모 컬럼을 다 모아서 하나의 테이블로 만듦
+            - @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+        - 구현 클래스마다 테이블 전략: 자식테이블만 만들고 중복된 컬럼을 테이블마다 가짐
+
+## 주요 어노테이션

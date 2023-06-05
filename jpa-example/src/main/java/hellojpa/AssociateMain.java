@@ -10,7 +10,7 @@ import javax.persistence.Persistence;
 import java.util.List;
 
 public class AssociateMain {
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         EntityManager em = emf.createEntityManager();
 
@@ -47,7 +47,7 @@ public class AssociateMain {
             //연관 관계 설정이 없을 때는 팀 아이디를 찾으려면 좀 복잡한 과정을 거쳐야함
 
             tx.commit();
-        } catch (Exception e) {
+        } catch(Exception e) {
             tx.rollback();
         } finally {
             em.close();
