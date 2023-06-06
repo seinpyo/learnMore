@@ -1,9 +1,12 @@
 package hellojpa.associate;
 
-import javax.persistence.*;
+import hellojpa.BaseEntity;
 
-//@Entity
-public class AssociateMember {
+import javax.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+public class AssociateMember extends BaseEntity {
     @Id @GeneratedValue
     @Column(name = "MEMBER_ID")
     private Long id;
@@ -17,7 +20,7 @@ public class AssociateMember {
 
 //    @Column(name = "TEAM_ID")
 //    private Long teamId;
-    @ManyToOne(fetch = FetchType.LAZY) //다대일 관계 (내가 다)
+    @ManyToOne(fetch = FetchType.EAGER) //다대일 관계 (내가 다)
     @JoinColumn(name = "TEAM_ID") //조인할 컬럼 설정
     private Team team;
 
@@ -48,6 +51,10 @@ public class AssociateMember {
 
     public Team getTeam() {
         return team;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
     //연관관계 편의 메소드

@@ -1,17 +1,25 @@
-package hellojpa.associate;
-
-import hellojpa.BaseEntity;
+package hellojpa.cascade;
 
 import javax.persistence.*;
 
 @Entity
-public class Locker  extends BaseEntity {
-    @Id @GeneratedValue
+public class Child {
+    @Id
+    @GeneratedValue
     private Long id;
     private String name;
 
-    @OneToOne(mappedBy = "locker")
-    private AssociateMember member;
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Parent parent;
+
+    public Parent getParent() {
+        return parent;
+    }
+
+    public void setParent(Parent parent) {
+        this.parent = parent;
+    }
 
     public Long getId() {
         return id;
