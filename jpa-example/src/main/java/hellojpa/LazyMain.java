@@ -13,7 +13,7 @@ import java.util.List;
 
 public class LazyMain {
 
-    public static void main(String[] args) {
+    public static void main5(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         EntityManager em = emf.createEntityManager();
 
