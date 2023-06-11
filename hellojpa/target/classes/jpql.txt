@@ -1,0 +1,30 @@
+## 문법
+    - 엔티티 이름을 사용해야 함(테이블 이름 x)
+    - 별칭 필수 (as는 생략 가능)
+    - ex) select m from Member m where m.age > 18;
+
+    - 집합, 정렬(SUM, AVG, MIN, MAX 등), GROUP BY, HAVING, ORDER BY 그대로 사용 가능
+
+    - TypedQuery: 반환타입이 명확할 때 사용
+    - Query: 반환타입이 명확하지 않을 때 사용
+
+## 결과 조회 API
+    - .getResult()
+    - getSingleResult(): 결과가 없거나 둘 이상일 시 EXCEPTION 터짐. 결과가 정확히 하나일 경우에만 사용 가능
+
+## 파라미터 바인딩
+    - 이름 기준만 사용 권장
+    ex) select m from Member m where m.username = :username
+        query.setParameter("username", "아무개");
+
+## 프로젝션
+    - select 절에 조회할 대상을 지정하는 것
+    - 대상 : 엔티티, 임베디드 타입, 스칼라타입(숫자, 문자 등 기본 데이터 타입)
+    - SELECT m FROM Member m -> 엔티티 프로젝션
+    - SELECT m.team FROM Member m -> 엔티티 프로젝션
+    - SELECT m.address FROM Member m  -> 임베디드 타입 프로젝션
+    - SELECT m.age, m.username FROM Member m -> 스칼라 타입 프로젝션
+    # DISTINCT 로 중복 제거 가능
+
+## 페이징
+    - setFirstResult(int startPosition) : 조회 시작 위치      - setMaxResult(int maxResult) : 조회할 데이터 수
