@@ -28,3 +28,43 @@
 
 ## 페이징
     - setFirstResult(int startPosition) : 조회 시작 위치      - setMaxResult(int maxResult) : 조회할 데이터 수
+    - setMaxResult(int maxResult) : 조회할 데이터 수
+
+## 조인
+    - 내부조인
+    - 외부조인
+    - 세타조인: 연관관계가 전혀 없는 경우의 조인 = cross join
+
+    - ON 절을 활용한 조인 :
+        1) 조인대상 필터링 (연관 관계 필요)
+        - JPQL : SELECT m, t FROM Member m LEFT JOIN m.team t ON t.name = 'A'
+        => SQL : SELECT m.*, t.* FROM Member m LEFT JOIN Team t ON m.TEAM_ID = t.id AND t.name = 'A'
+
+        2) 연관관계 없는 엔티티끼리 외부 조인 가능
+        - JPQL : SELECT m,t FROM Member m LEFT JOIN Team t ON m.username = t.name
+        - SQL : SELECT m.*, t.* FROM Member m LEFT JOIN Team t ON m.username = t.name
+
+## 서브 쿼리
+    - 지원하는 함수
+        - [NOT] EXISTS : 서브쿼리에 결과가 존재하[지않으]면 참
+        - ALL/ANY/SOME : 서브쿼리의 모든 결과 중에서 조건을 검색
+        - [NOT] IN : 서브쿼리 결과 중 하나라도 같은 것이 있으면 참
+    - JPA 는 WHERE, HAVING 절에서만 서브 쿼리 사용 가능
+        - 하이버네이트에서 SELECT 절에서의 서브 쿼리를 지원함
+    - FROM 절의 서브 쿼리는 현재 JPQL 에서 불가능
+        => JOIN 으로 풀어서 해결
+
+## 타입 표현
+    - 문자: ' ' (작은 따옴표) 안에 문자 작성, ' 자체를 사용해야 한다면 '' (작은따옴표 두개) 사용
+    - 숫자: 10L, 10D, 10F
+    - ENUM: 패키지명을 포함한 ENUM 클래스 이름 ex) jpabook.MemberType.Admin
+    - 엔티티 타입: TYPE(m) = Member (상속 관계에서 사용)
+        - ITEM 의 자식 엔티티가 movie, book, album 이 있다고 할 때
+        - "SELECT i FROM Item i WHERE TYPE(i) = Book"
+            -> ITEM 의 DiscriminatorColumn 의 value(예제에서 DTYPE)가 'Book' 인 컬럼만 조회
+
+
+
+
+
+

@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.List;
 
 public class JpqlMain {
-    public static void main(String[] args) {
+    public static void main1(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         EntityManager em = emf.createEntityManager();
 
@@ -45,8 +45,8 @@ public class JpqlMain {
             //페이징
 
             List<Member> resultList = em.createQuery("select m from Member m order by m.age desc", Member.class)
-                    .setFirstResult(0)
-                    .setMaxResults(10)
+                    .setFirstResult(10)
+                    .setMaxResults(20)
                     .getResultList();
 
             System.out.println("resultList = " + resultList.size());
