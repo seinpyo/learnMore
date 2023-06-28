@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class JpqlMain2 {
-    public static void main(String[] args) {
+    public static void main2(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         EntityManager em = emf.createEntityManager();
 

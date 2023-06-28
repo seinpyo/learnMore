@@ -59,8 +59,30 @@
     - 숫자: 10L, 10D, 10F
     - ENUM: 패키지명을 포함한 ENUM 클래스 이름 ex) jpabook.MemberType.Admin
     - 엔티티 타입: TYPE(m) = Member (상속 관계에서 사용)
+        - ITEM 의 자식 엔티티가 movie, book, album 이 있다고 할 때
+        - "SELECT i FROM Item i WHERE TYPE(i) = Book"
+            -> ITEM 의 DiscriminatorColumn 의 value(예제에서 DTYPE)가 'Book' 인 컬럼만 조회
 
+## 조건식
+    - CASE
+        -기본 CASE: 조건
+        -단순 CASE: 일치
+        -COALESCE
+        -NULLIF
 
+## 기본 함수
+    - JPA 표준 함수
+        - CONCAT
+        - SUBSTRING
+        - TRIM
+        - LOWER, UPPER
+        - LENGTH
+        - LOCATE
+        - ABS, SQRT, MOD
+        - SIZE, INDEX(JPA 용도)
+    - MySQL57Dialect 같은 클래스에 db 종속적 함수들이 등록되어있음
+    - 하이버 네이트는 사용전 방언에 추가해야한다
+        : select function ('group_concat', i.name) from Item i
 
 
 

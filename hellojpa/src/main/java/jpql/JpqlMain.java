@@ -49,6 +49,7 @@ public class JpqlMain {
                     .setMaxResults(20)
                     .getResultList();
 
+
             System.out.println("resultList = " + resultList.size());
             for (Member item : resultList) {
                 System.out.println("item = " + item);
