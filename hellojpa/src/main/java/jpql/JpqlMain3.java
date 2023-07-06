@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.List;
 
 public class JpqlMain3 {
-    public static void main(String[] args) {
+    public static void main3(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         EntityManager em = emf.createEntityManager();
 
