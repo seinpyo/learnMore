@@ -11,7 +11,7 @@ import javax.persistence.Persistence;
 import java.util.List;
 
 public class fetchMain {
-    public static void main(String[] args) {
+    public static void maifn(String[] args) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("hello");
         EntityManager em = emf.createEntityManager();
 
@@ -107,10 +107,6 @@ public class fetchMain {
             //  -> member = Member{id=3, username='회원1', age=0}
             //  team = teamB | members =
             //  -> member = Member{id=3, username='회원1', age=0}
-
-
-
-
 
             tx.commit();
         } catch (Exception e) {
