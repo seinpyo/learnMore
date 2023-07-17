@@ -1,5 +1,6 @@
 package jpabook.review;
 
+import jpabook.review.domain.Member;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
