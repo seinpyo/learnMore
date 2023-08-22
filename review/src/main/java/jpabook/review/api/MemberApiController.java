@@ -24,6 +24,7 @@ public class MemberApiController {
                 .map(m -> new MemberDto(m.getName()))
                 .collect(Collectors.toList());
         return new Result(collect);
+
     }
 
     @Data
