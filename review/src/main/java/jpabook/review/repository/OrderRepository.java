@@ -1,6 +1,5 @@
 package jpabook.review.repository;
 
-import jpabook.review.domain.Item.Item;
 import jpabook.review.domain.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -70,5 +69,13 @@ public class OrderRepository {
             query = query.setParameter("name", orderSearch.getMemberName());
         }
         return query.getResultList();
+    }
+
+    public List<OrderSimpleQueryDto> findOrderDtos() {
+        return em.createQuery("select new jpabook.review.repository.OrderSimpleQueryDto(o.id, m.name, o.orderDate, o.status, d.address)" +
+                        " from Order o" +
+                " join o.member m" +
+                " join o.delivery d", OrderSimpleQueryDto.class)
+                .getResultList();
     }
 }

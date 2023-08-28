@@ -5,9 +5,9 @@ import jpabook.review.domain.Order;
 import jpabook.review.domain.OrderStatus;
 import jpabook.review.repository.OrderRepository;
 import jpabook.review.repository.OrderSearch;
+import jpabook.review.repository.OrderSimpleQueryDto;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import net.bytebuddy.asm.Advice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -45,6 +45,13 @@ public class OrderSimpleApiController {
         return orderRepository.findAllWithMemberDelivery().stream()
                 .map(o -> new SimpleOrderDto(o))
                 .collect(Collectors.toList());
+    }
+
+
+    @GetMapping("/api/v4/simple-orders")
+    public List<OrderSimpleQueryDto> orderV4() {
+        return orderRepository.findOrderDtos();
+
     }
 
     @Data
