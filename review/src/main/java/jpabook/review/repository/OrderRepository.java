@@ -78,4 +78,18 @@ public class OrderRepository {
                 " join o.delivery d", OrderSimpleQueryDto.class)
                 .getResultList();
     }
+
+    public List<Order> findAllWithItem() {
+        // 주의: 일대다 페치조인+페이징 시, 모든 데이터를 DB 에서 읽어온 뒤 메모리에 적재 후 페이징 처리됨 (일부 데이터만 가지고 오기 불가)
+        // 주의2: 컬렉션 둘 이상에서 페치 조인 사용 xxxx , 데이터가 부정합하게 조회될 수 있음
+        return em.createQuery(
+                        "select distinct o from Order o" +
+                                " join fetch o.member m" +
+                                " join fetch o.delivery d" +
+                                " join fetch o.orderItems oi" +
+                                " join fetch oi.item i", Order.class)
+                .getResultList();
+    }
+
 }
+
